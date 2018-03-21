@@ -9,7 +9,7 @@ class Signup extends React.Component {
       name: '',
       email: '',
       password: '',
-      passwordConfirm: ''
+      password_confirmation: ''
     };
   }
 
@@ -26,12 +26,13 @@ class Signup extends React.Component {
     const rules = {
       name: 'required|string',
       email: 'required|email',
-      password: 'required|string|min:6'
+      password: 'required|string|min:6|confirmed'
     };
 
     validateAll(data, rules)
       .then(() => {
         // register the user
+        console.log('SUCCESS')
       })
       .catch(errors => {
         console.log(errors);
@@ -57,7 +58,7 @@ class Signup extends React.Component {
               <input type="password" name="password" onChange={this.handleInputChange}  className="form-control" placeholder="Password" />
             </div>
             <div className="form-group">
-              <input type="password" name="passwordConfirm" onChange={this.handleInputChange}  className="form-control" placeholder="Password (confirm)" />
+              <input type="password" name="password_confirmation" onChange={this.handleInputChange}  className="form-control" placeholder="Password (confirm)" />
             </div>
             <br />
             <button className="btn btn-bold btn-block btn-primary" type="submit">Register</button>
