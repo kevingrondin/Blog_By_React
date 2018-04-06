@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { validateAll } from 'indicative'
 
 import config from '../../config'
- 
+
 class Signup extends React.Component {
   constructor() {
     super();
@@ -23,7 +23,7 @@ class Signup extends React.Component {
     });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
     // validating user data
     const data = this.state;
@@ -39,32 +39,34 @@ class Signup extends React.Component {
       'password.confirmed': 'The password confirmation does not match.'
     };
 
-    validateAll(data, rules, messages)
-      .then(() => {
-        // register the user
-        Axios.post(`${config.apiUrl}/auth/register`, {
+    try {
+      await validateAll(data, rules, messages)
+
+      try {
+        const response = await Axios.post(`${config.apiUrl}/auth/register`, {
           name: this.state.name,
           email: this.state.email,
           password: this.state.password
-        }).then(response => {
-          localStorage.setItem('user', JSON.stringify(response.data.data))
-          this.props.setAuthUser(response.data.data)
-          this.props.history.push('/');
-        }).catch(errors => {
-          const formattedErrors = {};
-          formattedErrors['email'] = errors.response.data['email'][0];         
-          this.setState({
-            errors: formattedErrors
-          });
         })
-      })
-      .catch(errors => {
-        const formattedErrors = {}
-        errors.forEach(error => formattedErrors[error.field] = error.message)
+
+        localStorage.setItem('user', JSON.stringify(response.data.data))
+        this.props.setAuthUser(response.data.data)
+        this.props.history.push('/');
+
+      } catch (errors) {
+        const formattedErrors = {};
+        formattedErrors['email'] = errors.response.data['email'][0];
         this.setState({
           errors: formattedErrors
-        })
+        });
+      }
+    } catch (errors) {
+      const formattedErrors = {}
+      errors.forEach(error => formattedErrors[error.field] = error.message)
+      this.setState({
+        errors: formattedErrors
       })
+    }
   }
 
   render() {
@@ -78,26 +80,26 @@ class Signup extends React.Component {
             <div className="form-group">
               <input type="text" name="name" onChange={this.handleInputChange} className="form-control" placeholder="Username" />
               {
-                this.state.errors['name'] && 
+                this.state.errors['name'] &&
                 <small className="text-danger">{this.state.errors['name']}</small>
               }
             </div>
             <div className="form-group">
-              <input type="text" name="email" onChange={this.handleInputChange}  className="form-control" placeholder="Email address" />
+              <input type="text" name="email" onChange={this.handleInputChange} className="form-control" placeholder="Email address" />
               {
                 this.state.errors['email'] &&
                 <small className="text-danger">{this.state.errors['email']}</small>
               }
             </div>
             <div className="form-group">
-              <input type="password" name="password" onChange={this.handleInputChange}  className="form-control" placeholder="Password" />
+              <input type="password" name="password" onChange={this.handleInputChange} className="form-control" placeholder="Password" />
               {
-                this.state.errors['password'] && 
+                this.state.errors['password'] &&
                 <small className="text-danger">{this.state.errors['password']}</small>
               }
             </div>
             <div className="form-group">
-              <input type="password" name="password_confirmation" onChange={this.handleInputChange}  className="form-control" placeholder="Password (confirm)" />
+              <input type="password" name="password_confirmation" onChange={this.handleInputChange} className="form-control" placeholder="Password (confirm)" />
             </div>
             <br />
             <button className="btn btn-bold btn-block btn-primary" type="submit">Register</button>
