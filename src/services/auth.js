@@ -20,23 +20,21 @@ export default class AuthService {
     try {
       await validateAll(data, rules, messages)
 
-      try {
-        const response = await Axios.post(`${config.apiUrl}/auth/register`, {
-          name: data.name,
-          email: data.email,
-          password: data.password
-        })
+      const response = await Axios.post(`${config.apiUrl}/auth/register`, {
+        name: data.name,
+        email: data.email,
+        password: data.password
+      })
 
-        return response.data.data;
-      } catch (errors) {
-        const formattedErrors = {};
-        formattedErrors['email'] = errors.response.data['email'][0];
-        return formattedErrors
-      }
+      return response.data.data;
     } catch (errors) {
       const formattedErrors = {}
+      if (errors.status === 422) {
+        formattedErrors['email'] = errors.response.data['email'][0];
+        return Promise.reject(formattedErrors)
+      }
       errors.forEach(error => formattedErrors[error.field] = error.message)
-      return formattedErrors
+      return Promise.reject(formattedErrors)
     }
   }
 }
