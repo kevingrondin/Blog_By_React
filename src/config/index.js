@@ -1,3 +1,3 @@
 export default {
-  apiUrl: 'https://react-blog-api.bahdcasts.com/api'
+  apiUrl: 'https://react-blog-api.bahdcasts.com/api',
 };
