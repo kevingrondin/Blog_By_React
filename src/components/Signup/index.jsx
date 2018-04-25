@@ -26,9 +26,7 @@ class Signup extends React.Component {
     event.preventDefault();
     try {
       const user = await this.props.registerUser(this.state);
-      localStorage.setItem('user', JSON.stringify(user));
       this.props.setAuthUser(user);
-      this.props.history.push('/');
     } catch (errors) {
       this.setState({ errors });
     }
@@ -48,9 +46,6 @@ class Signup extends React.Component {
 Signup.propTypes = {
   registerUser: PropTypes.func.isRequired,
   setAuthUser: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default Signup;
