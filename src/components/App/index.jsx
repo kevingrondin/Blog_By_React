@@ -75,6 +75,7 @@ class App extends React.Component {
               <CreateArticle
                 {...props}
                 getArticleCategories={this.props.articlesService.getArticleCategories}
+                createArticle={this.props.articlesService.createArticle}
               />
             )
           }
@@ -96,6 +97,7 @@ App.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   authService: PropTypes.objectOf(PropTypes.func).isRequired,
+  articlesService: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default App;

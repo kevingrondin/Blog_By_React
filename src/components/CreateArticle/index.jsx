@@ -25,6 +25,12 @@ class CreateArticle extends React.Component {
     });
   }
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    await this.props.createArticle(this.state);
+  }
+
   handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.type === 'file' ? event.target.files[0] : event.target.value,
@@ -36,6 +42,7 @@ class CreateArticle extends React.Component {
       <CreateArticleForm
         handleInputChange={this.handleInputChange}
         categories={this.state.categories}
+        handleSubmit={this.handleSubmit}
       />
     );
   }
@@ -43,6 +50,7 @@ class CreateArticle extends React.Component {
 
 CreateArticle.propTypes = {
   getArticleCategories: PropTypes.func.isRequired,
+  createArticle: PropTypes.func.isRequired,
 };
 
 export default CreateArticle;
