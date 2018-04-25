@@ -10,14 +10,23 @@ class CreateArticle extends React.Component {
       title: '',
       image: null,
       content: '',
-      channel: null,
-      errors: {}
+      category: null,
+      errors: {},
+      categories: []
     };
+  }
+
+  async componentWillMount() {
+    const categories = await this.props.getArticleCategories();
+
+    this.setState({
+      categories
+    });
   }
 
   handleInputChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.type === 'file' ? event.target.files[0] : event.target.value,
     });
   }
 
@@ -25,6 +34,7 @@ class CreateArticle extends React.Component {
     return (
       <CreateArticleForm
         handleInputChange={this.handleInputChange}
+        categories={this.state.categories}
       />
     );
   }

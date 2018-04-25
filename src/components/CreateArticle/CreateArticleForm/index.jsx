@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Banner from '../../Banner';
 
-const CreateArticle = ({ handleInputChange }) => ((
+const CreateArticle = ({ handleInputChange, categories }) => ((
   <div>
     {/* Header */}
     <Banner
@@ -32,10 +32,10 @@ const CreateArticle = ({ handleInputChange }) => ((
                     />
                   </div>
                   <div className="form-group col-12 col-md-6">
-                    <select name="channel" onChange={handleInputChange} id className="form-control form-control-lg">
+                    <select name="category" onChange={handleInputChange} id className="form-control form-control-lg">
                       <option value>Select category</option>
-                      <option value>Vuejs</option>
-                      <option value>Reactjs</option>
+                      {categories.map(category =>
+                        <option key={category.id} value={category.id}>{category.name}</option>)}
                     </select>
                   </div>
                 </div>
