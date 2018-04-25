@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import CreateArticleForm from './CreateArticleForm';
 
@@ -12,7 +13,7 @@ class CreateArticle extends React.Component {
       content: '',
       category: null,
       errors: {},
-      categories: []
+      categories: [],
     };
   }
 
@@ -20,7 +21,7 @@ class CreateArticle extends React.Component {
     const categories = await this.props.getArticleCategories();
 
     this.setState({
-      categories
+      categories,
     });
   }
 
@@ -39,5 +40,9 @@ class CreateArticle extends React.Component {
     );
   }
 }
+
+CreateArticle.propTypes = {
+  getArticleCategories: PropTypes.func.isRequired,
+};
 
 export default CreateArticle;

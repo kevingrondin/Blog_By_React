@@ -64,6 +64,10 @@ const CreateArticle = ({ handleInputChange, categories }) => ((
 
 CreateArticle.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default CreateArticle;
