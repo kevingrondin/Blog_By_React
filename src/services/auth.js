@@ -29,9 +29,43 @@ export default class AuthService {
       return response.data.data;
     } catch (errors) {
       const formattedErrors = {};
-      if (errors.status === 422) {
+      if (errors.response.status === 422) {
         // eslint-disable-next-line
         formattedErrors['email'] = errors.response.data['email'][0];
+        return Promise.reject(formattedErrors);
+      }
+      errors.forEach((error) => {
+        formattedErrors[error.field] = error.message;
+      });
+      return Promise.reject(formattedErrors);
+    }
+  }
+
+  async loginUser(data) {
+    const rules = {
+      email: 'required|email',
+      password: 'required|string',
+    };
+
+    const messages = {
+      required: 'The {{ field }} is required.',
+      'email.email': 'The email is invalid.',
+    };
+
+    try {
+      await validateAll(data, rules, messages);
+
+      const response = await Axios.post(`${config.apiUrl}/auth/login`, {
+        email: data.email,
+        password: data.password,
+      });
+
+      return response.data.data;
+    } catch (errors) {
+      const formattedErrors = {};
+      if (errors.response.status === 401) {
+        // eslint-disable-next-line
+        formattedErrors['email'] = 'Invalid credentials.';
         return Promise.reject(formattedErrors);
       }
       errors.forEach((error) => {
