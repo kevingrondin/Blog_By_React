@@ -29,7 +29,7 @@ class CreateArticle extends React.Component {
     event.preventDefault();
 
     try {
-      const article = await this.props.createArticle(this.state, this.props.token);
+      await this.props.createArticle(this.state, this.props.token);
       this.props.history.push('/');
     } catch (errors) {
       this.setState({ errors });
@@ -57,6 +57,9 @@ CreateArticle.propTypes = {
   getArticleCategories: PropTypes.func.isRequired,
   createArticle: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default CreateArticle;

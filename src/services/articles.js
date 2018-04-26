@@ -25,12 +25,8 @@ export default class ArticlesService {
       });
 
 
-    console.log(response);
-
-    return response.data;
+      return response.data;
     } catch (errors) {
-      console.log(errors);
-
       return errors.response.data;
     }
   }
