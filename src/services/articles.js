@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { validateAll } from 'indicative';
 
 import config from '../config';
 
@@ -10,9 +11,26 @@ export default class ArticlesService {
   }
 
   createArticle = async (data, token) => {
-    const image = await this.uploadToCloudinary(data.image);
+    if (!data.image) {
+      return Promise.reject([{
+        message: 'The image is required.',
+      }]);
+    }
 
     try {
+      const rules = {
+        title: 'required',
+        content: 'required',
+        category: 'required',
+      };
+
+      const messages = {
+        required: 'The {{ field }} is required.',
+      };
+
+      await validateAll(data, rules, messages);
+
+      const image = await this.uploadToCloudinary(data.image);
       const response = await Axios.post(`${config.apiUrl}/articles`, {
         title: data.title,
         content: data.content,
@@ -27,7 +45,11 @@ export default class ArticlesService {
 
       return response.data;
     } catch (errors) {
-      return errors.response.data;
+      if (errors.response) {
+        return Promise.reject(errors.response.data);
+      }
+
+      return Promise.reject(errors);
     }
   }
 

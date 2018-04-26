@@ -5,7 +5,8 @@
         "jsx-a11y/anchor-is-valid": 0,
         "jsx-a11y/label-has-for": 0,
         "class-methods-use-this": 0,
-        "react/jsx-filename-extension": 0
+        "react/jsx-filename-extension": 0,
+        "prefer-promise-reject-errors": 0
     },
     "globals": {
         "localStorage": true,
