@@ -6,7 +6,7 @@ const Article = ({ article }) => ((
   <article className="mt-90">
     <header className="text-center mb-40">
       <h3>
-        <a href="blog-single.html">{article.title}</a>
+        <Link to={`article/${article.slug}`}>{article.title}</Link>
       </h3>
       <div className="link-color-default fs-12">
         <a href="#">{article.category.name}</a>,
@@ -17,9 +17,9 @@ const Article = ({ article }) => ((
       <img className="rounded" src={article.imageUrl} alt="..." />
     </a>
     <div className="card-block">
-      <p className="text-justify">Together. </p>
+      <p className="text-justify">{`${article.content.substring(0, 90)} ...`} </p>
       <p className="text-center mt-40">
-        <Link className="btn btn-primary btn-round" to="/article/some-title-slug">Read more</Link>
+        <Link className="btn btn-primary btn-round" to={`article/${article.slug}`}>Read more</Link>
       </p>
     </div>
   </article>
