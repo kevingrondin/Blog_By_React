@@ -28,7 +28,12 @@ class CreateArticle extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    await this.props.createArticle(this.state);
+    try {
+      const article = await this.props.createArticle(this.state, this.props.token);
+      this.props.history.push('/');
+    } catch (errors) {
+      this.setState({ errors });
+    }
   }
 
   handleInputChange = (event) => {
@@ -51,6 +56,7 @@ class CreateArticle extends React.Component {
 CreateArticle.propTypes = {
   getArticleCategories: PropTypes.func.isRequired,
   createArticle: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 export default CreateArticle;

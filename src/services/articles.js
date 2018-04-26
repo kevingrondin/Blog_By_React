@@ -9,8 +9,30 @@ export default class ArticlesService {
     return response.data.categories;
   }
 
-  createArticle = async (data) => {
-    await this.uploadToCloudinary(data.image);
+  createArticle = async (data, token) => {
+    const image = await this.uploadToCloudinary(data.image);
+
+    try {
+      const response = await Axios.post(`${config.apiUrl}/articles`, {
+        title: data.title,
+        content: data.content,
+        category_id: data.category,
+        imageUrl: image.secure_url,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+    console.log(response);
+
+    return response.data;
+    } catch (errors) {
+      console.log(errors);
+
+      return errors.response.data;
+    }
   }
 
   async uploadToCloudinary(image) {
