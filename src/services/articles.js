@@ -9,6 +9,11 @@ export default class ArticlesService {
 
     return response.data.data;
   }
+  async getArticle(slug) {
+    const response = await Axios.get(`${config.apiUrl}/article/${slug}`);
+
+    return response.data.data;
+  }
   async getArticleCategories() {
     const response = await Axios.get(`${config.apiUrl}/categories`);
 
