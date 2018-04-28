@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
+import Auth from '../Auth';
 import Login from '../Login';
 import Navbar from '../Navbar';
 import Signup from '../Signup';
@@ -96,18 +97,15 @@ class App extends React.Component {
             )
           }
         />
-        <Route
+        <Auth
           path="/articles/create"
-          render={
-            props => (
-              <CreateArticle
-                {...props}
-                getArticleCategories={this.props.articlesService.getArticleCategories}
-                createArticle={this.props.articlesService.createArticle}
-                token={this.state.authUser.token}
-              />
-            )
-          }
+          component={CreateArticle}
+          props={{
+            getArticleCategories: this.props.articlesService.getArticleCategories,
+            createArticle: this.props.articlesService.createArticle,
+            token: this.state.authUser ? this.state.authUser.token : null,
+          }}
+          isAuthenticated={this.state.authUser !== null}
         />
         {
           location.pathname !== '/login' && location.pathname !== '/signup' &&
