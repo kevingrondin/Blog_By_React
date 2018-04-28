@@ -8,6 +8,7 @@ import Navbar from '../Navbar';
 import Signup from '../Signup';
 import Footer from '../Footer';
 import Welcome from '../Welcome';
+import UserArticles from '../UserArticles';
 import CreateArticle from '../CreateArticle';
 import SingleArticle from '../SingleArticle';
 import RedirectIfAuth from '../RedirectIfAuth';
@@ -102,6 +103,16 @@ class App extends React.Component {
           props={{
             getArticleCategories: this.props.articlesService.getArticleCategories,
             createArticle: this.props.articlesService.createArticle,
+            token: this.state.authUser ? this.state.authUser.token : null,
+          }}
+          isAuthenticated={this.state.authUser !== null}
+        />
+        <Auth
+          path="/user/articles"
+          component={UserArticles}
+          props={{
+            getUserArticles: this.props.articlesService.getUserArticles,
+            setArticles: this.setArticles,
             token: this.state.authUser ? this.state.authUser.token : null,
           }}
           isAuthenticated={this.state.authUser !== null}
