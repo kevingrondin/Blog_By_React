@@ -10,6 +10,7 @@ import Footer from '../Footer';
 import Welcome from '../Welcome';
 import CreateArticle from '../CreateArticle';
 import SingleArticle from '../SingleArticle';
+import RedirectIfAuth from '../RedirectIfAuth';
 
 class App extends React.Component {
   constructor() {
@@ -65,25 +66,23 @@ class App extends React.Component {
             )
           }
         />
-        <Route
+        <RedirectIfAuth
           path="/login"
-          render={
-            props => (<Login
-              {...props}
-              setAuthUser={this.setAuthUser}
-              loginUser={this.props.authService.loginUser}
-            />)
-          }
+          component={Login}
+          props={{
+            setAuthUser: this.setAuthUser,
+            loginUser: this.props.authService.loginUser,
+          }}
+          isAuthenticated={this.state.authUser !== null}
         />
-        <Route
+        <RedirectIfAuth
           path="/signup"
-          render={
-            props => (<Signup
-              {...props}
-              registerUser={this.props.authService.registerUser}
-              setAuthUser={this.setAuthUser}
-            />)
-            }
+          component={Signup}
+          props={{
+            setAuthUser: this.setAuthUser,
+            registerUser: this.props.authService.registerUser,
+          }}
+          isAuthenticated={this.state.authUser !== null}
         />
         <Route
           path="/article/:slug"
