@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Banner from '../../Banner';
 
 const CreateArticle = ({
-  handleInputChange, categories, handleSubmit, errors,
+  handleInputChange, categories, handleSubmit, errors, editing, article, title, category, content,
 }) => ((
   <div>
     {/* Header */}
     <Banner
       backgroundImage={`url(${process.env.PUBLIC_URL}/assets/img/bg-laptop.jpg)`}
-      title="Write an article"
+      title={editing ? `Editing Article: ${article.title}` : 'Write an article'}
     />
     {/* END Header */}
     {/* Main container */}
@@ -33,14 +33,15 @@ const CreateArticle = ({
                       type="text"
                       name="title"
                       placeholder="Title"
+                      value={title}
                       onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group col-12 col-md-6">
-                    <select name="category" onChange={handleInputChange} id className="form-control form-control-lg">
+                    <select name="category" onChange={handleInputChange} value={category} id className="form-control form-control-lg">
                       <option value>Select category</option>
-                      {categories.map(category =>
-                        <option key={category.id} value={category.id}>{category.name}</option>)}
+                      {categories.map(categoryInArray =>
+                        <option key={categoryInArray.id} value={categoryInArray.id}>{categoryInArray.name}</option>)}
                     </select>
                   </div>
                 </div>
@@ -50,6 +51,7 @@ const CreateArticle = ({
                     rows={4}
                     placeholder="Content"
                     name="content"
+                    value={content}
                     onChange={handleInputChange}
                     defaultValue=""
                   />
@@ -77,6 +79,17 @@ CreateArticle.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.shape({
     message: PropTypes.string.isRequired,
   })).isRequired,
+  editing: PropTypes.bool.isRequired,
+  article: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }),
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  category: PropTypes.number.isRequired,
+};
+
+CreateArticle.defaultProps = {
+  article: null,
 };
 
 export default CreateArticle;
