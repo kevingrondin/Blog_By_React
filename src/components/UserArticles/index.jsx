@@ -26,6 +26,10 @@ class UserArticles extends React.Component {
     this.props.setArticles(articles.data);
   }
 
+  editArticle = (article) => {
+    this.props.history.push(`/article/edit/${article.slug}`);
+  }
+
   deleteArticle = async (id) => {
     await this.props.deleteArticle(id, this.props.token);
 
@@ -46,6 +50,7 @@ class UserArticles extends React.Component {
         prevUrl={this.state.articles.prev_page_url}
         handlePagination={this.handlePagination}
         deleteArticle={this.deleteArticle}
+        editArticle={this.editArticle}
       />
     );
   }
@@ -56,6 +61,9 @@ UserArticles.propTypes = {
   token: PropTypes.string.isRequired,
   setArticles: PropTypes.func.isRequired,
   deleteArticle: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default UserArticles;

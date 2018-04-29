@@ -5,7 +5,7 @@ import Banner from '../../Banner';
 import Article from '../../Article';
 
 const Articles = ({
-  articles, handlePagination, nextUrl, prevUrl, deleteArticle,
+  articles, handlePagination, nextUrl, prevUrl, deleteArticle, editArticle,
 }) => ((
   <div>
 
@@ -22,6 +22,7 @@ const Articles = ({
             <div key={article.id}>
               <Article article={article} />
               <div className="text-center">
+                <button onClick={() => editArticle(article)} className="btn btn-info mr-5">Edit Article</button>
                 <button onClick={() => deleteArticle(article.id)} className="btn btn-danger">Delete Article</button>
               </div>
               <hr />
@@ -47,6 +48,8 @@ Articles.propTypes = {
   handlePagination: PropTypes.func.isRequired,
   nextUrl: PropTypes.string.isRequired,
   prevUrl: PropTypes.string.isRequired,
+  deleteArticle: PropTypes.func.isRequired,
+  editArticle: PropTypes.func.isRequired,
 };
 
 export default Articles;

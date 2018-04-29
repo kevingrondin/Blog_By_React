@@ -87,6 +87,7 @@ class App extends React.Component {
         />
         <Route
           path="/article/:slug"
+          exact
           render={
             props => (
               <SingleArticle
@@ -114,6 +115,16 @@ class App extends React.Component {
             getUserArticles: this.props.articlesService.getUserArticles,
             setArticles: this.setArticles,
             deleteArticle: this.props.articlesService.deleteArticle,
+            token: this.state.authUser ? this.state.authUser.token : null,
+          }}
+          isAuthenticated={this.state.authUser !== null}
+        />
+        <Auth
+          path="/article/edit/:slug"
+          component={CreateArticle}
+          props={{
+            getArticleCategories: this.props.articlesService.getArticleCategories,
+            createArticle: this.props.articlesService.createArticle,
             token: this.state.authUser ? this.state.authUser.token : null,
           }}
           isAuthenticated={this.state.authUser !== null}
