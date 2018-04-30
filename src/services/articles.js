@@ -86,6 +86,47 @@ export default class ArticlesService {
     }
   }
 
+  updateArticle = async (data, article, token) => {
+    let image;
+    if (data.image) {
+      image = await this.uploadToCloudinary(data.image);
+    }
+
+    try {
+      const rules = {
+        title: 'required',
+        content: 'required',
+        category: 'required',
+      };
+
+      const messages = {
+        required: 'The {{ field }} is required.',
+      };
+
+      await validateAll(data, rules, messages);
+
+      const response = await Axios.put(`${config.apiUrl}/articles/${article.id}`, {
+        title: data.title,
+        content: data.content,
+        category_id: data.category,
+        imageUrl: image ? image.secure_url : article.imageUrl,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+      return response.data;
+    } catch (errors) {
+      if (errors.response) {
+        return Promise.reject(errors.response.data);
+      }
+
+      return Promise.reject(errors);
+    }
+  }
+
   async uploadToCloudinary(image) {
     const form = new FormData();
     form.append('file', image);

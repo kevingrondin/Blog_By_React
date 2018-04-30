@@ -51,6 +51,22 @@ class CreateArticle extends React.Component {
     }
   }
 
+  updateArticle = async (event) => {
+    event.preventDefault();
+    try {
+      await this.props.updateArticle({
+        title: this.state.title,
+        image: this.state.image,
+        content: this.state.content,
+        category: this.state.category,
+      }, this.state.article, this.props.token);
+
+      this.props.history.push('/');
+    } catch (errors) {
+      this.setState({ errors });
+    }
+  }
+
   handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.type === 'file' ? event.target.files[0] : event.target.value,
@@ -69,6 +85,7 @@ class CreateArticle extends React.Component {
         title={this.state.title}
         content={this.state.content}
         category={this.state.category}
+        updateArticle={this.updateArticle}
       />
     );
   }
@@ -81,6 +98,20 @@ CreateArticle.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  updateArticle: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      slug: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  articles: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    category: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    created_at: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default CreateArticle;
