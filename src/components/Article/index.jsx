@@ -17,7 +17,6 @@ const Article = ({ article }) => ((
       <img className="rounded" src={article.imageUrl} alt="..." />
     </a>
     <div className="card-block">
-      <p className="text-justify">{`${article.content.substring(0, 90)} ...`} </p>
       <p className="text-center mt-40">
         <Link className="btn btn-primary btn-round" to={`article/${article.slug}`}>Read more</Link>
       </p>
