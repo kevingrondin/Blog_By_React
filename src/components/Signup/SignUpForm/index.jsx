@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const SignUpForm = ({ handleInputChange, handleSubmit, errors }) => ((
   <div className="mh-fullscreen bg-img center-vh p-20" style={{ backgroundImage: 'url(assets/img/bg-girl.jpg)' }}>
@@ -61,7 +62,7 @@ const SignUpForm = ({ handleInputChange, handleSubmit, errors }) => ((
       </form>
       <hr className="w-30" />
       <p className="text-center text-muted fs-13 mt-20">Already have an account?
-        <a href="login.html">Sign in</a>
+        <Link to="/login">Sign in</Link>
       </p>
     </div>
   </div>
