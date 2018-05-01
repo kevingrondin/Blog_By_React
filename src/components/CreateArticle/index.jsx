@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import draftToHtml from 'draftjs-to-html';
+import { EditorState, convertToRaw } from 'draft-js';
 
 import CreateArticleForm from './CreateArticleForm';
 
@@ -10,7 +12,7 @@ class CreateArticle extends React.Component {
     this.state = {
       title: '',
       image: null,
-      content: '',
+      content: EditorState.createEmpty(),
       category: null,
       errors: [],
       categories: [],
@@ -45,11 +47,22 @@ class CreateArticle extends React.Component {
     }
   }
 
+  handleEditorState = (editorState) => {
+    this.setState({
+      content: editorState,
+    });
+  }
+
   handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await this.props.createArticle(this.state, this.props.token);
+      await this.props.createArticle({
+        title: this.state.title,
+        content: draftToHtml(convertToRaw(this.state.content.getCurrentContent())),
+        category: this.state.category,
+        image: this.state.image,
+      }, this.props.token);
       this.props.notyService.success('Article created successfully.');
       this.props.history.push('/');
     } catch (errors) {
@@ -64,7 +77,7 @@ class CreateArticle extends React.Component {
       await this.props.updateArticle({
         title: this.state.title,
         image: this.state.image,
-        content: this.state.content,
+        content: draftToHtml(convertToRaw(this.state.content.getCurrentContent())),
         category: this.state.category,
       }, this.state.article, this.props.token);
       this.props.notyService.success('Article updated successfully.');
@@ -94,6 +107,7 @@ class CreateArticle extends React.Component {
         content={this.state.content}
         category={this.state.category}
         updateArticle={this.updateArticle}
+        handleEditorState={this.handleEditorState}
       />
     );
   }
