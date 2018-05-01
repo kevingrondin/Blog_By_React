@@ -39,10 +39,16 @@ const CreateArticle = ({
                     />
                   </div>
                   <div className="form-group col-12 col-md-6">
-                    <select name="category" onChange={handleInputChange} value={category} id className="form-control form-control-lg">
+                    <select name="category" onChange={handleInputChange} value={category || ''} className="form-control form-control-lg">
                       <option value>Select category</option>
                       {categories.map(categoryInArray =>
-                        <option key={categoryInArray.id} value={categoryInArray.id}>{categoryInArray.name}</option>)}
+                        (
+                          <option
+                            key={categoryInArray.id}
+                            value={categoryInArray.id}
+                          >
+                            {categoryInArray.name}
+                          </option>))}
                     </select>
                   </div>
                 </div>
@@ -54,7 +60,6 @@ const CreateArticle = ({
                     name="content"
                     value={content}
                     onChange={handleInputChange}
-                    defaultValue=""
                   />
                 </div>
                 <div className="text-center">
@@ -86,12 +91,13 @@ CreateArticle.propTypes = {
   }),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  category: PropTypes.number.isRequired,
+  category: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
 };
 
 CreateArticle.defaultProps = {
   article: null,
+  category: null,
 };
 
 export default CreateArticle;

@@ -106,7 +106,7 @@ CreateArticle.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  updateArticle: PropTypes.func.isRequired,
+  updateArticle: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({
       slug: PropTypes.string,
@@ -119,11 +119,16 @@ CreateArticle.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
     created_at: PropTypes.string.isRequired,
-  })).isRequired,
+  })),
   notyService: PropTypes.shape({
     success: PropTypes.func.isRequired,
     error: PropTypes.func.isRequired,
   }).isRequired,
+};
+
+CreateArticle.defaultProps = {
+  updateArticle: () => {},
+  articles: [],
 };
 
 export default CreateArticle;

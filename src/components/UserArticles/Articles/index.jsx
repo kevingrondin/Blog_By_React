@@ -44,12 +44,18 @@ const Articles = ({
 Articles.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-  })).isRequired,
+  })),
   handlePagination: PropTypes.func.isRequired,
-  nextUrl: PropTypes.string.isRequired,
-  prevUrl: PropTypes.string.isRequired,
+  nextUrl: PropTypes.string,
+  prevUrl: PropTypes.string,
   deleteArticle: PropTypes.func.isRequired,
   editArticle: PropTypes.func.isRequired,
+};
+
+Articles.defaultProps = {
+  articles: [],
+  nextUrl: null,
+  prevUrl: null,
 };
 
 export default Articles;

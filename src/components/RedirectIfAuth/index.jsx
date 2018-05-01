@@ -20,7 +20,7 @@ const RedirectIfAuth = ({
 
 RedirectIfAuth.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  component: PropTypes.instanceOf(React.Component).isRequired,
+  component: PropTypes.func.isRequired,
   props: PropTypes.objectOf(PropTypes.any),
   path: PropTypes.string.isRequired,
 };
