@@ -42,12 +42,14 @@ class App extends React.Component {
       authUser,
     }, () => {
       localStorage.setItem('user', JSON.stringify(authUser));
+      this.props.notyService.success('Successfully logged in!');
       this.props.history.push('/');
     });
   }
 
   removeAuthUser = () => {
     localStorage.removeItem('user');
+    this.props.notyService.success('Successfully logged out!');
     this.setState({ authUser: null });
   }
 
@@ -110,6 +112,7 @@ class App extends React.Component {
             getArticleCategories: this.props.articlesService.getArticleCategories,
             createArticle: this.props.articlesService.createArticle,
             token: this.state.authUser ? this.state.authUser.token : null,
+            notyService: this.props.notyService,
           }}
           isAuthenticated={this.state.authUser !== null}
         />
@@ -154,6 +157,7 @@ App.propTypes = {
   }).isRequired,
   authService: PropTypes.objectOf(PropTypes.func).isRequired,
   articlesService: PropTypes.objectOf(PropTypes.func).isRequired,
+  notyService: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 export default App;

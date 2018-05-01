@@ -50,8 +50,10 @@ class CreateArticle extends React.Component {
 
     try {
       await this.props.createArticle(this.state, this.props.token);
+      this.props.notyService.success('Article created successfully.');
       this.props.history.push('/');
     } catch (errors) {
+      this.props.notyService.error('Please check for errors. Something went wrong.');
       this.setState({ errors });
     }
   }
@@ -65,9 +67,10 @@ class CreateArticle extends React.Component {
         content: this.state.content,
         category: this.state.category,
       }, this.state.article, this.props.token);
-
+      this.props.notyService.success('Article updated successfully.');
       this.props.history.push('/');
     } catch (errors) {
+      this.props.notyService.error('Please check for errors. Something went wrong.');
       this.setState({ errors });
     }
   }
@@ -117,6 +120,10 @@ CreateArticle.propTypes = {
     }).isRequired,
     created_at: PropTypes.string.isRequired,
   })).isRequired,
+  notyService: PropTypes.shape({
+    success: PropTypes.func.isRequired,
+    error: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default CreateArticle;
