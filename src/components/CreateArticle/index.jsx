@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import draftToHtml from 'draftjs-to-html';
-import { EditorState, convertToRaw } from 'draft-js';
+import htmlToDraftjs from 'html-to-draftjs';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 
 import CreateArticleForm from './CreateArticleForm';
 
@@ -30,6 +31,10 @@ class CreateArticle extends React.Component {
         return;
       }
 
+      const { contentBlocks, entityMap } = htmlToDraftjs(article.content);
+
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+
       const categories = await this.props.getArticleCategories();
       this.setState({
         editing: true,
@@ -37,7 +42,7 @@ class CreateArticle extends React.Component {
         categories,
         title: article.title,
         category: article.category_id,
-        content: article.content,
+        content: EditorState.createWithContent(contentState),
       });
     } else {
       const categories = await this.props.getArticleCategories();
