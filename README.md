@@ -5,7 +5,7 @@ Trés belle formation présent sur UDEMY
 
 ### Lien de l'application
 
-https://bahdblog.herokuapp.com
+https://bahdblog.herokuapp.com/signup
 
 ### Petit detail vue dans la formation
 - Ajout d'états de chargement des boutons pour une meilleure expérience utilisateur. Chaque fois que l'utilisateur soumet un formulaire, le bouton doit être désactivé et afficher Chargement ..., et une fois la réponse reçue du serveur, le bouton doit être réactivé et le message Chargement supprimé.
